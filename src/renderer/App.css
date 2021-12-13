@@ -1,0 +1,29 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100vw;
+  height: 90vh;
+  max-width: 100%;
+  max-height: 100%;
+  direction: rtl;
+}
+
+.data-area{
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+}
+
+.form-area{
+  width: 50vw;
+  margin: 10px;
+}
+
+.scenarios-area{
+  width: 50vw;
+  margin: 10px;
+}
