@@ -1,10 +1,8 @@
-import React, { FC } from "react";
-
-
+import { FC } from 'react';
 
 interface FormProps {
-  engineeringGroupOptions?: string[];
-  statusOptions?: string[];
+  engineeringGroupOptions: string[];
+  statusOptions: string[];
 }
 
 const AddScenarioForm: FC<FormProps> = (props) => {
@@ -16,13 +14,18 @@ const AddScenarioForm: FC<FormProps> = (props) => {
           className="form-control"
           type="text"
           name="ScenrioID"
-          id=""
+          id="ScenrioID"
           placeholder="לדוגמה: A1212"
         />
       </div>
       <div className="form-group">
         <label htmlFor="ScenarioName">שם תרחיש</label>
-        <input className="form-control" type="text" name="ScenarioName" id="" />
+        <input
+          className="form-control"
+          type="text"
+          name="ScenarioName"
+          id="ScenarioName"
+        />
       </div>
       <div className="form-group">
         <label htmlFor="ScenarioContent">תוכן תרחיש</label>
@@ -30,7 +33,7 @@ const AddScenarioForm: FC<FormProps> = (props) => {
           className="form-control"
           type="text"
           name="ScenarioContent"
-          id=""
+          id="ScenarioContent"
           placeholder="סיפור הרקע ומה נדרש"
         />
       </div>
@@ -39,7 +42,7 @@ const AddScenarioForm: FC<FormProps> = (props) => {
         <select
           className="form-control"
           name="ScenarioIntegrator"
-          id=""
+          id="ScenarioIntegrator"
           placeholder="מדור מוביל"
         >
           {props.engineeringGroupOptions.map((value) => {
@@ -53,7 +56,7 @@ const AddScenarioForm: FC<FormProps> = (props) => {
           className="form-control"
           type="datetime-local"
           name="activationTime"
-          id=""
+          id="activationTime"
           placeholder="זמן הפעלה"
         />
       </div>
@@ -63,13 +66,13 @@ const AddScenarioForm: FC<FormProps> = (props) => {
           className="form-control"
           type="datetime-local"
           name="deadlineTime"
-          id=""
+          id="deadlineTime"
           placeholder="זמן יעד"
         />
       </div>
       <div className="form-group">
         <label htmlFor="status">סטטוס</label>
-        <select className="form-control" name="status" id="">
+        <select className="form-control" name="status" id="status">
           {props.statusOptions.map((value) => {
             return <option value={value}>{value}</option>;
           })}

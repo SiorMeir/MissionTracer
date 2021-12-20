@@ -16,7 +16,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-import { readFile } from 'fs/promises';
+
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -128,8 +128,7 @@ app
   .whenReady()
   .then(() => {
     createWindow();
-    readFile('src\\config.json','utf-8').then(res => console.log(res))
-    
+
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.

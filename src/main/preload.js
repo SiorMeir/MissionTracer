@@ -1,4 +1,13 @@
 const { contextBridge, ipcRenderer } = require('electron');
+const { readFile } = require('fs/promises');
+
+function getConfigFile(filePath) {
+  const data = readFile(filePath, 'utf-8')
+    .then((res) => JSON.parse(res))
+    .catch((err) => console.log('Error reading config file', err));
+  return data;
+}
+// const configData = getConfigFile('src/config.json').then((res) => res);
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
@@ -21,3 +30,9 @@ contextBridge.exposeInMainWorld('electron', {
     },
   },
 });
+
+getConfigFile('src/config.json')
+  .then((data) => {
+    return contextBridge.exposeInMainWorld('configData', data);
+  })
+  .catch((err) => console.log(err));
