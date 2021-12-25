@@ -8,6 +8,15 @@ function getConfigFile(filePath) {
   return data;
 }
 
+function getExistingScenarios(filePath) {
+  const data = readFile(filePath, 'utf-8')
+    .then((res) => JSON.parse(res))
+    .catch((err) => console.log('Error reading config file', err));
+  return data;
+}
+
+
+
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
     myPing() {
@@ -33,5 +42,11 @@ contextBridge.exposeInMainWorld('electron', {
 getConfigFile('src/config.json')
   .then((data) => {
     return contextBridge.exposeInMainWorld('configData', data);
+  })
+  .catch((err) => console.log(err));
+
+getExistingScenarios('data/Scenarios.json')
+  .then((data) => {
+    return contextBridge.exposeInMainWorld('savedScenarios', data);
   })
   .catch((err) => console.log(err));

@@ -4,6 +4,7 @@ import ScenarioTable from 'components/ScenarioTable/ScenarioTable';
 import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 
+
 export default function App() {
   return (
     <div className="app">
@@ -11,7 +12,7 @@ export default function App() {
       <h2>מעקב תרחישים בתרגיל</h2>
       <div className="data-area">
         <div className="scenarios-area">
-          <ScenarioTable />
+          <ScenarioTable scenarios={window.savedScenarios} />
         </div>
         <div className="form-area card">
           <AddScenarioForm

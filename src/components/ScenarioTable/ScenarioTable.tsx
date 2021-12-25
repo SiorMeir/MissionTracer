@@ -1,40 +1,50 @@
-import { FC } from "react";
+import { FC } from 'react';
 
 interface Props {
-  scenarios? : {
-    id : number,
-    name : string,
-    content : string,
-    leadingGroup : string,
-    timeOfActivation: Date,
-    timeOfDeadline : Date,
-    status : string
-  }[]
+  scenarios?: {
+    id: number;
+    name: string;
+    content: string;
+    leadingGroup: string;
+    timeOfActivation: string;
+    timeOfDeadline: string;
+    status: string;
+  }[];
 }
 
 const ScenarioTable: FC<Props> = (props) => {
-
-    const scenarios = () => {
-      
-      if (!props.scenarios) {
-        return;
-      }
-
-      props.scenarios.map((value) => {
-        return (
-          <tr>
-            <th scope="col">מספר תרחיש</th>
-            <th scope="col">{value.id}</th>
-            <th scope="col">{value.name}</th>
-            <th scope="col">{value.content}</th>
-            <th scope="col">{value.leadingGroup}</th>
-            <th scope="col">{value.timeOfActivation}</th>
-            <th scope="col">{value.timeOfDeadline}</th>
-            <th scope="col">{value.status}</th>
-          </tr>
-          )
-        })
+  const setScenarios = () => {
+    if (!props.scenarios) {
+      return (
+        <tr>
+          <td scope="col">No Data</td>
+          <td scope="col">No Data</td>
+          <td scope="col">No Data</td>
+          <td scope="col">No Data</td>
+          <td scope="col">No Data</td>
+          <td scope="col">No Data</td>
+          <td scope="col">No Data</td>
+          <td scope="col">No Data</td>
+        </tr>
+      );
     }
+
+    return props.scenarios.map((value) => {
+      return (
+        <tr>
+          <td scope="col">מספר תרחיש</td>
+          <td scope="col">{value.id}</td>
+          <td scope="col">{value.name}</td>
+          <td scope="col">{value.content}</td>
+          <td scope="col">{value.leadingGroup}</td>
+          <td scope="col">{value.timeOfActivation}</td>
+          <td scope="col">{value.timeOfDeadline}</td>
+          <td scope="col">{value.status}</td>
+        </tr>
+      );
+    });
+  };
+
   return (
     <div>
       <table className="table">
@@ -49,9 +59,10 @@ const ScenarioTable: FC<Props> = (props) => {
             <th scope="col">זמן יעד</th>
             <th scope="col">סטטוס</th>
           </tr>
-          {scenarios}
         </thead>
-        <tr></tr>
+        <tbody>
+          {setScenarios()}
+        </tbody>
       </table>
     </div>
   );
