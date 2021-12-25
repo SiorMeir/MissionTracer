@@ -7,7 +7,6 @@ function getConfigFile(filePath) {
     .catch((err) => console.log('Error reading config file', err));
   return data;
 }
-// const configData = getConfigFile('src/config.json').then((res) => res);
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
