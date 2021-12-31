@@ -1,22 +1,21 @@
+import { PathLike } from "fs";
+
 const { contextBridge, ipcRenderer } = require('electron');
-const { readFile } = require('fs/promises');
+const { readFile,writeFile } = require('fs/promises');
 
-function getConfigFile(filePath) {
+function getConfigFile(filePath : PathLike) {
   const data = readFile(filePath, 'utf-8')
-    .then((res) => JSON.parse(res))
-    .catch((err) => console.log('Error reading config file', err));
+    .then((res : string) => JSON.parse(res))
+    .catch((err : string) => console.log('Error reading config file', err));
   return data;
 }
 
-function getExistingScenarios(filePath) {
+function getExistingScenarios(filePath : PathLike) {
   const data = readFile(filePath, 'utf-8')
-    .then((res) => JSON.parse(res))
-    .catch((err) => console.log('Error reading config file', err));
+    .then((res : string) => JSON.parse(res))
+    .catch((err : string) => console.log('Error reading config file', err));
   return data;
 }
-
-
-
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
     myPing() {
@@ -40,13 +39,13 @@ contextBridge.exposeInMainWorld('electron', {
 });
 
 getConfigFile('src/config.json')
-  .then((data) => {
+  .then((data : object) => {
     return contextBridge.exposeInMainWorld('configData', data);
   })
   .catch((err) => console.log(err));
 
 getExistingScenarios('data/Scenarios.json')
-  .then((data) => {
+  .then((data : object) => {
     return contextBridge.exposeInMainWorld('savedScenarios', data);
   })
   .catch((err) => console.log(err));

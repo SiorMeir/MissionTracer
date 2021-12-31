@@ -19,7 +19,6 @@ export default function App() {
             statusOptions={['a', 'b', 'c']}
             engineeringGroupOptions={['fsf', 'gsg', '63456']}
           />
-          <AddScenarioButton />
         </div>
       </div>
       <div className="footer">Footer goes here</div>

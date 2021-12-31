@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 interface FormProps {
   engineeringGroupOptions: string[];
@@ -6,8 +6,10 @@ interface FormProps {
 }
 
 const AddScenarioForm: FC<FormProps> = (props) => {
+  function submitForm() {
+  }
   return (
-    <form className="form" action="">
+    <form className="form" onSubmit={submitForm} action="">
       <div className="form-group">
         <label htmlFor="ScenrioID">מזהה תרחיש</label>
         <input
@@ -78,6 +80,7 @@ const AddScenarioForm: FC<FormProps> = (props) => {
           })}
         </select>
       </div>
+      <button type='submit' className="btn btn-primary">הוסף תרחיש</button>
     </form>
   );
 };
