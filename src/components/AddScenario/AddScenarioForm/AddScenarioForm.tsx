@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, SyntheticEvent, useState } from 'react';
 
 interface FormProps {
   engineeringGroupOptions: string[];
@@ -7,20 +7,22 @@ interface FormProps {
 
 const AddScenarioForm: FC<FormProps> = (props) => {
   const [value, setValue] = useState({
-    ScenrioID : "",
-    ScenarioName : "",
-    ScenarioContent : "",
-    ScenarioIntegrator : "",
-    activationTime : "",
-    deadlineTime : "",
-    status : "",
+    ScenrioID: '',
+    ScenarioName: '',
+    ScenarioContent: '',
+    ScenarioIntegrator: '',
+    activationTime: '',
+    deadlineTime: '',
+    status: '',
   });
-  const onInput = (event) => setValue({...value, [event.target.name] : event.target.value});
-  function handleSubmit(event){
+  const onInput = (event: SyntheticEvent) =>
+    setValue({ ...value, [event.target.name]: event.target.value });
+  function handleSubmit(event: SyntheticEvent) {
+    const form = new FormData(event.target);
+    const formData = Object.fromEntries(form.entries());
     event.preventDefault();
-    console.log(event);
-    console.log(value);
-    // window.electron.fileHandling.saveScenarios("wow","wow")
+    window.electron.fileHandling.saveScenarios('wow', formData);
+    event.target.reset()
   }
 
   return (
@@ -32,7 +34,7 @@ const AddScenarioForm: FC<FormProps> = (props) => {
           type="text"
           name="ScenrioID"
           id="ScenrioID"
-          placeholder="לדוגמה: A1212"          
+          placeholder="לדוגמה: A1212"
           onChange={onInput}
           value={value.ScenrioID}
         />

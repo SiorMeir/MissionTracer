@@ -40,6 +40,7 @@ contextBridge.exposeInMainWorld('electron', {
     saveScenarios(filePath, scenariosData){
       // appendFile(filePath,scenariosData)
       console.log("Logged scenario to scenario file");
+      console.log(scenariosData);
       return;
     }
   }
