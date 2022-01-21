@@ -1,20 +1,24 @@
 const { contextBridge, ipcRenderer } = require('electron');
-const { readFile } = require('fs/promises');
+const { appendFile, readFile } = require('fs/promises');
+
+const DATA_FILEPATH = 'data/Scenarios.json';
+const CONFIG_FILEPATH = 'src/config.json';
 
 function getConfigFile(filePath) {
   const data = readFile(filePath, 'utf-8')
-    .then((res  ) => JSON.parse(res))
-    .catch((err ) => console.log('Error reading config file', err));
+    .then((res) => JSON.parse(res))
+    .catch((err) => console.log('Error reading config file', err));
   return data;
 }
 
 function getExistingScenarios(filePath) {
   const data = readFile(filePath, 'utf-8')
-    .then((res ) => JSON.parse(res))
-    .catch((err ) => console.log('Error reading config file', err));
+    .then((res) => JSON.parse(res))
+    .catch((err) => console.log('Error reading config file', err));
   return data;
 }
 
+function appendScenarios(filepath, scenarios) {}
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
@@ -36,23 +40,28 @@ contextBridge.exposeInMainWorld('electron', {
       }
     },
   },
-  fileHandling : {
-    saveScenarios(filePath, scenariosData){
-      // appendFile(filePath,scenariosData)
-      console.log("Logged scenario to scenario file");
+  fileHandling: {
+    saveScenarios(scenariosData) {
+      console.log('Logged scenario to scenario file');
       console.log(scenariosData);
-      return;
-    }
-  }
+      appendFile(DATA_FILEPATH, scenariosData)
+        .then(
+          ipcRenderer.on('update-scenarioes', (event, ...arg) =>
+            console.log(event)
+          )
+        )
+        .catch('Error occured logging scenario data');
+    },
+  },
 });
 
-getConfigFile('src/config.json')
+getConfigFile(CONFIG_FILEPATH)
   .then((data) => {
     return contextBridge.exposeInMainWorld('configData', data);
   })
   .catch((err) => console.log(err));
 
-getExistingScenarios('data/Scenarios.json')
+getExistingScenarios(DATA_FILEPATH)
   .then((data) => {
     return contextBridge.exposeInMainWorld('savedScenarios', data);
   })

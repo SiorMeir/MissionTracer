@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent, useState } from 'react';
+import { FC, FormEvent, SyntheticEvent, useState } from 'react';
 
 interface FormProps {
   engineeringGroupOptions: string[];
@@ -17,12 +17,12 @@ const AddScenarioForm: FC<FormProps> = (props) => {
   });
   const onInput = (event: SyntheticEvent) =>
     setValue({ ...value, [event.target.name]: event.target.value });
-  function handleSubmit(event: SyntheticEvent) {
+  function handleSubmit(event) {
+    event.preventDefault();
     const form = new FormData(event.target);
     const formData = Object.fromEntries(form.entries());
-    event.preventDefault();
-    window.electron.fileHandling.saveScenarios('wow', formData);
-    event.target.reset()
+    window.electron.fileHandling.saveScenarios(JSON.stringify(formData));
+    event.target.reset();
   }
 
   return (
@@ -103,13 +103,21 @@ const AddScenarioForm: FC<FormProps> = (props) => {
       </div>
       <div className="form-group">
         <label htmlFor="status">סטטוס</label>
-        <select className="form-control" name="status" id="status" onChange={onInput} value={value.status}>
+        <select
+          className="form-control"
+          name="status"
+          id="status"
+          onChange={onInput}
+          value={value.status}
+        >
           {props.statusOptions.map((value) => {
             return <option value={value}>{value}</option>;
           })}
         </select>
       </div>
-      <button type='submit' className="btn btn-primary">הוסף תרחיש</button>
+      <button type="submit" className="btn btn-primary">
+        הוסף תרחיש
+      </button>
     </form>
   );
 };
