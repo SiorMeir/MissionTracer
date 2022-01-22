@@ -14,10 +14,11 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import { readFile } from 'fs/promises';
+import { readFileSync } from 'fs';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import ScenarioSchema from './interfaces';
+
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -117,6 +118,26 @@ const createWindow = async () => {
  * Add event listeners...
  */
 
+let currentScenarios: ScenarioSchema[];
+const DATA_FILEPATH = 'data/Scenarios.json';
+const CONFIG_FILEPATH = 'src/config.json';
+
+const scenariosFromFile: ScenarioSchema = JSON.parse(
+  readFileSync(DATA_FILEPATH, 'utf-8')
+);
+// currentScenarios.push(scenariosFromFile);
+
+ipcMain.on('get-scenarios', async (event) => {
+  console.log('request for getting scenarios');
+  event.reply('get-scenarios', scenariosFromFile);
+});
+ipcMain.on('update-scenarios', async (event, arg) => {
+  console.log('wow');
+  currentScenarios.push(arg)
+  event.reply('update-scenarios', 'saved new scenario');
+});
+
+
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
@@ -129,7 +150,6 @@ app
   .whenReady()
   .then(() => {
     createWindow();
-
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
@@ -137,16 +157,3 @@ app
     });
   })
   .catch(console.log);
-
-let currentScenarios: ScenarioSchema[];
-const DATA_FILEPATH = 'data/Scenarios.json';
-readFile(DATA_FILEPATH, 'utf-8')
-  .then((res) => JSON.parse(res))
-  
-  .catch((err) => console.log('Error reading config file', err));
-
-ipcMain.on('update-scenarios',async (event,arg) => {
-  currentScenarios.push(arg);
-  console.log(currentScenarios);
-  
-})

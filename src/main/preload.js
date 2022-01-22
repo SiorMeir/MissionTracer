@@ -1,5 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron');
 const { appendFile, readFile } = require('fs/promises');
+const { readFileSync } = require('fs');
 
 const DATA_FILEPATH = 'data/Scenarios.json';
 const CONFIG_FILEPATH = 'src/config.json';
@@ -18,22 +19,21 @@ function getExistingScenarios(filePath) {
   return data;
 }
 
-function appendScenarios(filepath, scenarios) {}
-
 contextBridge.exposeInMainWorld('electron', {
+  
   ipcRenderer: {
     myPing() {
       ipcRenderer.send('ipc-example', 'ping');
     },
     on(channel, func) {
-      const validChannels = ['ipc-example'];
+      const validChannels = ['ipc-example', 'update-scenarios','get-scenarios'];
       if (validChannels.includes(channel)) {
         // Deliberately strip event as it includes `sender`
         ipcRenderer.on(channel, (event, ...args) => func(...args));
       }
     },
     once(channel, func) {
-      const validChannels = ['ipc-example'];
+      const validChannels = ['ipc-example', 'update-scenarios','get-scenarios'];
       if (validChannels.includes(channel)) {
         // Deliberately strip event as it includes `sender`
         ipcRenderer.once(channel, (event, ...args) => func(...args));
@@ -41,17 +41,17 @@ contextBridge.exposeInMainWorld('electron', {
     },
   },
   fileHandling: {
-    saveScenarios(scenariosData) {
-      console.log('Logged scenario to scenario file');
-      console.log(scenariosData);
-      appendFile(DATA_FILEPATH, scenariosData)
-        .then(
-          ipcRenderer.on('update-scenarioes', (event, ...arg) =>
-            console.log(event)
-          )
-        )
-        .catch('Error occured logging scenario data');
+    getExistingScenarios(){
+      console.log('getting existing scenarios');
+      ipcRenderer.send('get-scenarios')
     },
+    saveScenarios(scenario) {
+      console.log('Logged scenario to scenario file');
+      console.log(scenario);
+      ipcRenderer.send('update-scenarioes', scenario)
+    },
+    deleteScenario(scenarioId){
+    }
   },
 });
 

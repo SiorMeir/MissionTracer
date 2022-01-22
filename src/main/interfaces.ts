@@ -2,7 +2,7 @@ export default interface ScenarioSchema {
   id: number;
   name: string;
   content?: string;
-  leadingGroup: LeadingGroup;
+  leadingGroup: string;
   timeOfActivation: string;
   timeOfDeadline: string;
   status: Status;
