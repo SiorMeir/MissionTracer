@@ -14,9 +14,10 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import { readFile } from 'fs/promises';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-
+import ScenarioSchema from './interfaces';
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -136,3 +137,16 @@ app
     });
   })
   .catch(console.log);
+
+let currentScenarios: ScenarioSchema[];
+const DATA_FILEPATH = 'data/Scenarios.json';
+readFile(DATA_FILEPATH, 'utf-8')
+  .then((res) => JSON.parse(res))
+  
+  .catch((err) => console.log('Error reading config file', err));
+
+ipcMain.on('update-scenarios',async (event,arg) => {
+  currentScenarios.push(arg);
+  console.log(currentScenarios);
+  
+})
