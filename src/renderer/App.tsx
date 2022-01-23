@@ -6,8 +6,7 @@ import './App.css';
 
 let scenarios;
 window.electron.fileHandling.getExistingScenarios();  
-window.electron.ipcRenderer.on('get-scenarios', (arg) => scenarios = arg)
-
+window.electron.ipcRenderer.on('get-scenarios', (arg) => (scenarios = arg));
 
 export default function App() {
   return (
