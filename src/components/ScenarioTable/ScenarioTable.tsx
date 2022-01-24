@@ -4,7 +4,7 @@ interface Props {
   scenarios?: {
     id: number;
     name: string;
-    content: string;
+    content?: string;
     leadingGroup: string;
     timeOfActivation: string;
     timeOfDeadline: string;

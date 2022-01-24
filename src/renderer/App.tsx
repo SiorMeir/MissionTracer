@@ -1,14 +1,18 @@
-import AddScenarioButton from 'components/AddScenario/AddScenarioButton/AddScenarioButton';
 import AddScenarioForm from 'components/AddScenario/AddScenarioForm/AddScenarioForm';
 import ScenarioTable from 'components/ScenarioTable/ScenarioTable';
-import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import './App.css';
 
-let scenarios;
-window.electron.fileHandling.getExistingScenarios();  
-window.electron.ipcRenderer.on('get-scenarios', (arg) => (scenarios = arg));
-
 export default function App() {
+  const [scenarios, setScenarios] = useState([]);
+  useEffect(() => {
+    window.electron.fileHandling.getExistingScenarios();
+    window.electron.ipcRenderer.on('get-scenarios', (arg) => {
+      setScenarios(() => {
+        return arg;
+      });
+    });
+  }, []);
   return (
     <div className="app">
       <h1>{window.configData['branch']}</h1>

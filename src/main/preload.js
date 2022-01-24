@@ -41,9 +41,9 @@ contextBridge.exposeInMainWorld('electron', {
     },
   },
   fileHandling: {
-    getExistingScenarios(){
+    getExistingScenarios() {
       console.log('getting existing scenarios');
-      ipcRenderer.send('get-scenarios')
+      ipcRenderer.send('get-scenarios');
     },
     saveScenarios(scenario) {
       console.log('Logged scenario to scenario file');

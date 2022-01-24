@@ -118,14 +118,14 @@ const createWindow = async () => {
  * Add event listeners...
  */
 
-let currentScenarios: ScenarioSchema[];
+let currentScenarios: ScenarioSchema[] = [];
 const DATA_FILEPATH = 'data/Scenarios.json';
 const CONFIG_FILEPATH = 'src/config.json';
 
 const scenariosFromFile: ScenarioSchema = JSON.parse(
   readFileSync(DATA_FILEPATH, 'utf-8')
 );
-// currentScenarios.push(scenariosFromFile);
+currentScenarios.push(scenariosFromFile);
 
 ipcMain.on('get-scenarios', async (event) => {
   console.log('request for getting scenarios');
@@ -150,6 +150,7 @@ app
   .whenReady()
   .then(() => {
     createWindow();
+    window.electron.fileHandling.getExistingScenarios();
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
