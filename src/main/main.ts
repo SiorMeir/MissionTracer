@@ -126,7 +126,7 @@ const CONFIG_FILEPATH = 'src/config.json';
 const scenariosFromFile: ScenarioSchema = JSON.parse(
   readFileSync(DATA_FILEPATH, 'utf-8')
 );
-currentScenarios.push(scenariosFromFile);
+currentScenarios = currentScenarios.concat(scenariosFromFile);
 
 ipcMain.on('get-scenarios', async (event) => {
   console.log('request for getting scenarios');
@@ -134,10 +134,9 @@ ipcMain.on('get-scenarios', async (event) => {
 });
 ipcMain.on('update-scenarios', async (event, arg) => {
   console.log('wow');
-  currentScenarios.push(arg)
+  currentScenarios.push(arg);
   event.reply('update-scenarios', 'saved new scenario');
 });
-
 
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
