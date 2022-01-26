@@ -2,6 +2,8 @@ const { contextBridge, ipcRenderer } = require('electron');
 const { appendFile, readFile } = require('fs/promises');
 const { readFileSync } = require('fs');
 
+window.__devtron = {require: require, process: process}
+
 const DATA_FILEPATH = 'data/Scenarios.json';
 const CONFIG_FILEPATH = 'src/config.json';
 
@@ -20,20 +22,27 @@ function getExistingScenarios(filePath) {
 }
 
 contextBridge.exposeInMainWorld('electron', {
-  
   ipcRenderer: {
     myPing() {
       ipcRenderer.send('ipc-example', 'ping');
     },
     on(channel, func) {
-      const validChannels = ['ipc-example', 'update-scenarios','get-scenarios'];
+      const validChannels = [
+        'ipc-example',
+        'update-scenarios',
+        'get-scenarios',
+      ];
       if (validChannels.includes(channel)) {
         // Deliberately strip event as it includes `sender`
         ipcRenderer.on(channel, (event, ...args) => func(...args));
       }
     },
     once(channel, func) {
-      const validChannels = ['ipc-example', 'update-scenarios', 'get-scenarios'];
+      const validChannels = [
+        'ipc-example',
+        'update-scenarios',
+        'get-scenarios',
+      ];
       if (validChannels.includes(channel)) {
         // Deliberately strip event as it includes `sender`
         ipcRenderer.once(channel, (event, ...args) => func(...args));
@@ -48,10 +57,9 @@ contextBridge.exposeInMainWorld('electron', {
     saveScenarios(scenario) {
       console.log('Logged scenario to scenario file');
       console.log(scenario);
-      ipcRenderer.send('update-scenarioes', scenario)
+      ipcRenderer.send('update-scenarioes', scenario);
     },
-    deleteScenario(scenarioId){
-    }
+    deleteScenario(scenarioId) {},
   },
 });
 

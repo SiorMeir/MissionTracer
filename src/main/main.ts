@@ -18,7 +18,6 @@ import { readFileSync } from 'fs';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import ScenarioSchema from './interfaces';
-
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -44,7 +43,9 @@ const isDevelopment =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
 if (isDevelopment) {
-  require('electron-debug')();
+  const debug = require('electron-debug');
+  debug.preloadScriptPath = path.join(__dirname, 'preload.js');
+  debug();
 }
 
 const installExtensions = async () => {
@@ -129,7 +130,7 @@ currentScenarios.push(scenariosFromFile);
 
 ipcMain.on('get-scenarios', async (event) => {
   console.log('request for getting scenarios');
-  event.reply('get-scenarios', scenariosFromFile);
+  event.reply('get-scenarios', currentScenarios);
 });
 ipcMain.on('update-scenarios', async (event, arg) => {
   console.log('wow');
