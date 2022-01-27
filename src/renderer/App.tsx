@@ -28,7 +28,10 @@ export default function App() {
           />
         </div>
       </div>
-      <div className="footer">Footer goes here</div>
+      <div className="footer">
+        <button className="btn btn-primary">יצא לאקסל</button>
+        <button className="btn btn-primary">הצג אנליטיקה</button>
+      </div>
     </div>
   );
 }
