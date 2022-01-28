@@ -1,0 +1,9 @@
+.content-cell {
+  height: 8rem;
+  overflow-y: auto;
+  transition: height 1s;
+}
+
+.content-cell:hover {
+  height: 12rem;
+}

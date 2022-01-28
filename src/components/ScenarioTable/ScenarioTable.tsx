@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import './ScenarioTable.css';
 
 interface Props {
   scenarios?: {
@@ -35,7 +36,12 @@ const ScenarioTable: FC<Props> = (props) => {
           <td scope="col">מספר תרחיש</td>
           <td scope="col">{value.id}</td>
           <td scope="col">{value.name}</td>
-          <td scope="col">{value.content}</td>
+          <td scope="col">
+            <div className="content-cell">
+              <div className="text">{value.content}</div>
+              <button className="btn btn-primary expand-btn">הרחב</button>
+            </div>
+          </td>
           <td scope="col">{value.leadingGroup}</td>
           <td scope="col">{value.timeOfActivation}</td>
           <td scope="col">{value.timeOfDeadline}</td>
@@ -47,7 +53,7 @@ const ScenarioTable: FC<Props> = (props) => {
 
   return (
     <div>
-      <table className="table">
+      <table className="table scenario-table">
         <thead>
           <tr>
             <th scope="col">מספר תרחיש</th>
@@ -60,9 +66,7 @@ const ScenarioTable: FC<Props> = (props) => {
             <th scope="col">סטטוס</th>
           </tr>
         </thead>
-        <tbody>
-          {setScenarios()}
-        </tbody>
+        <tbody>{setScenarios()}</tbody>
       </table>
     </div>
   );

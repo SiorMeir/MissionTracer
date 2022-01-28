@@ -18,7 +18,7 @@ export default function App() {
       <h1>{window.configData['branch']}</h1>
       <h2>מעקב תרחישים בתרגיל</h2>
       <div className="data-area">
-        <div className="scenarios-area">
+        <div className="scenarios-area card">
           <ScenarioTable scenarios={scenarios} />
         </div>
         <div className="form-area card">
@@ -28,7 +28,7 @@ export default function App() {
           />
         </div>
       </div>
-      <div className="footer">
+      <div className="footer card">
         <button className="btn btn-primary">יצא לאקסל</button>
         <button className="btn btn-primary">הצג אנליטיקה</button>
       </div>
