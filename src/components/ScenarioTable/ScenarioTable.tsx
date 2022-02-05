@@ -37,10 +37,7 @@ const ScenarioTable: FC<Props> = (props) => {
           <td scope="col">{value.id}</td>
           <td scope="col">{value.name}</td>
           <td scope="col">
-            <div className="content-cell">
-              <div className="text">{value.content}</div>
-              <button className="btn btn-primary expand-btn">הרחב</button>
-            </div>
+            <div className="content-cell">{value.content}</div>
           </td>
           <td scope="col">{value.leadingGroup}</td>
           <td scope="col">{value.timeOfActivation}</td>
@@ -53,7 +50,7 @@ const ScenarioTable: FC<Props> = (props) => {
 
   return (
     <div>
-      <table className="table scenario-table">
+      <table className="table table-striped">
         <thead>
           <tr>
             <th scope="col">מספר תרחיש</th>
